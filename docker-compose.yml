@@ -1,5 +1,16 @@
 version: '3'
 services:
+  load-balancer:
+    image: nginx:1.14-alpine
+    volumes:
+      - ./load-balancer/nginx.conf:/etc/nginx/conf.d/api.conf
+    ports:
+      - "8080:8080"
+    restart: always
+    env_file:
+      - ./load-balancer/.env
+    links:
+      - api
   api:
     build: ./api
     ports:
